@@ -1,0 +1,453 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0f172a;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 60px;
+}
+
+.contenedor {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* ===================================
+   INDICADOR DE PASOS (STEPPER)
+====================================== */
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.step {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #475569;
+    color: #94a3b8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.step.activo {
+    background: #0ea5e9;
+    color: white;
+    box-shadow: 0 0 12px #0ea5e9;
+    transform: scale(1.1);
+}
+
+.step.completado {
+    background: #16a34a;
+    color: white;
+}
+
+/* ===================================
+   TÍTULOS Y SUBTÍTULOS
+====================================== */
+h1 {
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: #f8fafc;
+}
+
+h3 {
+    color: #38bdf8;
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 5px;
+}
+
+.subtitulo {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+/* ===================================
+   MANEJO DE INTERFACES (PANTALLAS)
+====================================== */
+.pantalla {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.oculta {
+    display: none !important; /* Esto garantiza que solo se vea UNA pantalla a la vez */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================================
+   PANEL Y DISEÑOS DE REJILLA (GRID)
+====================================== */
+.panel {
+    background: #1e293b;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.grid-zonas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.grid-inputs-tres {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.grid-inputs-dos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+/* Estilo para los textos informativos superiores */
+.fila-lectura {
+    display: flex;
+    justify-content: space-between;
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+.fila-lectura strong {
+    color: #38bdf8;
+}
+
+/* ===================================
+   INPUTS Y CAMPOS BLOQUEADOS
+====================================== */
+label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #cbd5e1;
+    margin-bottom: -4px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    background: #334155;
+    color: white;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    background: #1e293b;
+}
+
+/* Campos de solo lectura (valores arrastrados automáticos) */
+.input-bloqueado {
+    background: #1e293b !important;
+    border: 2px dashed #475569 !important;
+    color: #94a3b8 !important;
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #334155;
+    margin: 15px 0;
+}
+
+/* ===================================
+   BOTONES
+====================================== */
+.btnPrincipal {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #0284c7;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btnPrincipal:hover { background: #0369a1; }
+
+.btnSecundario {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #475569;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btnSecundario:hover { background: #64748b; }
+
+.btnMini {
+    background: #334155;
+    color: #38bdf8;
+    border: 1px solid #38bdf8;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    align-self: flex-start;
+}
+.btnMini:hover { background: #38bdf8; color: #0f172a; }
+
+.btnPdf {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #16a34a;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+.btnPdf:hover { background: #15803d; }
+
+.btnReset {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #dc2626;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.btnReset:hover { background: #b91c1c; }
+
+.botonera {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+/* Botones de las zonas físicas del camión */
+.zona {
+    width: 100%;
+    padding: 20px 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+    text-align: center;
+}
+
+.zona:hover { transform: scale(1.03); }
+.pendiente { background: #dc2626; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2); }
+.completo { background: #16a34a; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.2); }
+
+/* ===================================
+   CÁLCULOS FINANCIEROS COMODIDAD
+====================================== */
+.grupo-dinero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+.grupo-dinero > div { flex: 1; }
+
+.subtotal-dinero {
+    display: block;
+    padding: 12px;
+    background: #0f172a;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    color: #a7f3d0;
+    font-size: 16px;
+    border: 1px solid #065f46;
+}
+
+.subtotal-derecha {
+    text-align: right;
+    font-size: 15px;
+    color: #94a3b8;
+    margin-top: -5px;
+}
+.subtotal-derecha span {
+    color: #34d399;
+    font-weight: bold;
+}
+
+.total-seccion {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    color: #38bdf8;
+}
+.total-seccion.grande {
+    font-size: 24px;
+    color: #34d399;
+    text-align: center;
+    padding: 10px;
+    background: #0f172a;
+    border-radius: 10px;
+}
+
+.nota-informativa {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* ===================================
+   TABLA DE DENOMINACIONES DE EFECTIVO
+====================================== */
+.tabla-dinero {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fila-dinero {
+    display: flex;
+    align-items: center;
+    background: #334155;
+    padding: 6px 12px;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.fila-dinero span:first-child {
+    width: 80px;
+    font-weight: bold;
+    color: #cbd5e1;
+}
+
+.fila-dinero input {
+    flex: 1;
+    padding: 8px;
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.calc-b {
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    color: #94a3b8;
+}
+
+/* ===================================
+   LIQUIDACIÓN FINAL Y ALERTAS
+====================================== */
+.resumen-final-lineas p {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #0f172a;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.res-bold { font-weight: bold; color: #f8fafc; }
+
+.mensaje-liquidacion-alerta {
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 22px;
+}
+
+.panel-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+/* ===================================
+   MODAL
+====================================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,.8);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modalContenido {
+    width: 100%;
+    max-width: 480px;
+    background: #1e293b;
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: scaleUp 0.3s ease;
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ===================================
+   RESPONSIVO (CELULARES)
+====================================== */
+@media(max-width:600px){
+    .botonera { flex-direction: column; }
+    .grid-zonas { grid-template-columns: repeat(2, 1fr); }
+    .grid-inputs-tres { grid-template-columns: 1fr; gap: 10px; }
+    .fila-dinero { gap: 8px; }
+    .calc-b { width: 70px; font-size: 14px; }
+}

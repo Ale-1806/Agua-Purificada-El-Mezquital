@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agua Purificada El Mezquital</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <div class="stepper">
+            <span id="step1" class="step activo">1</span>
+            <span id="step2" class="step">2</span>
+            <span id="step3" class="step">3</span>
+            <span id="step4" class="step">4</span>
+            <span id="step5" class="step">5</span>
+            <span id="step6" class="step">6</span>
+        </div>
+
+        <section id="pantalla1" class="pantalla">
+
+            <h1>Agua Purificada El Mezquital</h1>
+            <p class="subtitulo">Paso 1 - Salida de Planta y Datos de Ruta</p>
+
+            <div class="panel">
+                <h3>Datos del Viaje</h3>
+                <label>Chofer</label>
+                <input type="text" id="rutaChofer" placeholder="Nombre del chofer">
+
+                <label>Ayudante</label>
+                <input type="text" id="rutaAyudante" placeholder="Nombre del ayudante">
+
+                <label>Ruta / Zona</label>
+                <input type="text" id="rutaNombre" placeholder="Ej. Ruta Centro, Oriente, etc.">
+            </div>
+
+            <div class="panel">
+                <h3>Inventario Enviado</h3>
+                <label>Botellones enviados (Plásticos)</label>
+                <input type="number" id="salidaBotellones" value="0" min="0">
+
+                <label>Galones enviados</label>
+                <input type="number" id="salidaGalones" value="0" min="0">
+
+                <label>Paquetes de litro enviados</label>
+                <input type="number" id="salidaLitro" value="0" min="0">
+
+                <label>Paquetes de medio litro enviados</label>
+                <input type="number" id="salidaMedio" value="0" min="0">
+            </div>
+
+            <button class="btnPrincipal" onclick="mostrarPantalla(2)">
+                Continuar
+            </button>
+
+        </section>
+
+
+        <section id="pantalla2" class="pantalla oculta">
+
+            <h1>Captura de Regreso</h1>
+            <p class="subtitulo">Paso 2 - Distribución del Camión (Conteo Físico)</p>
+
+            <div class="panel grid-zonas">
+                <button class="zona pendiente" onclick="abrirZona('frente')">Frente</button>
+                <button class="zona pendiente" onclick="abrirZona('atras')">Atrás</button>
+                <button class="zona pendiente" onclick="abrirZona('panalIZ')">Panal Izquierdo</button>
+                <button class="zona pendiente" onclick="abrirZona('panalDE')">Panal Derecho</button>
+                <button class="zona pendiente" onclick="abrirZona('cajonDI')">Cajón Delantero Izq.</button>
+                <button class="zona pendiente" onclick="abrirZona('cajonDD')">Cajón Delantero Der.</button>
+                <button class="zona pendiente" onclick="abrirZona('cajonTI')">Cajón Trasero Izq.</button>
+                <button class="zona pendiente" onclick="abrirZona('cajonTD')">Cajón Trasero Der.</button>
+                <button class="zona pendiente" onclick="abrirZona('techo')">Techo</button>
+            </div>
+
+            <div class="botonera">
+                <button class="btnSecundario" onclick="mostrarPantalla(1)">Regresar</button>
+                <button class="btnPrincipal" onclick="mostrarPantalla(3)">Continuar</button>
+            </div>
+
+        </section>
+
+
+        <section id="pantalla3" class="pantalla oculta">
+
+            <h1>Cuentas de Botellones</h1>
+            <p class="subtitulo">Paso 3 - Desglose de Ventas de Plásticos</p>
+
+            <div class="panel datos-fijos">
+                <h3>Datos de Control (Arrastrados)</h3>
+                <div class="fila-lectura">
+                    <span>Salida de Planta: <strong id="arrastreSalidaBot">0</strong></span>
+                    <span>Llenos devueltos: <strong id="arrastrellenosBot">0</strong></span>
+                    <span>Cambios devueltos: <strong id="arrastreCambiosBot">0</strong></span>
+                </div>
+                <div id="alertaPlasticos" class="nota-informativa"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Cantidades de Venta (Hoja de Ruta)</h3>
+                
+                <label>Botellones a Crédito</label>
+                <input type="number" id="creditoBotellones" value="0" min="0" oninput="calcularLogicaBotellones()">
+
+                <label>Botellones a Precio de Casa</label>
+                <input type="number" id="casaBotellones" value="0" min="0" oninput="calcularLogicaBotellones()">
+
+                <div id="contenedorPreciosEspeciales">
+                    </div>
+
+                <button class="btnMini" onclick="agregarPrecioEspecial()">+ Agregar Cliente Especial</button>
+
+                <hr>
+
+                <label>Botellones Vendidos a Precio de Tienda (Cálculo Automático)</label>
+                <input type="number" id="tiendaBotellones" value="0" readonly class="input-bloqueado">
+
+                <label>Plásticos Faltantes / Vendidos (Cálculo Automático)</label>
+                <input type="number" id="faltanteBotellones" value="0" readonly class="input-bloqueado">
+            </div>
+
+            <div class="panel">
+                <h3>Configuración de Precios ($)</h3>
+                
+                <div class="grupo-dinero">
+                    <div>
+                        <label>Precio Casa</label>
+                        <input type="number" id="precioCasa" value="27" min="0" oninput="calcularLogicaBotellones()">
+                    </div>
+                    <div>
+                        <label>Subtotal Casa</label>
+                        <span class="subtotal-dinero" id="subtotalCasa">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="grupo-dinero">
+                    <div>
+                        <label>Precio Tienda</label>
+                        <input type="number" id="precioTienda" value="22" min="0" oninput="calcularLogicaBotellones()">
+                    </div>
+                    <div>
+                        <label>Subtotal Tienda</label>
+                        <span class="subtotal-dinero" id="subtotalTienda">$0.00</span>
+                    </div>
+                </div>
+
+                <div id="contenedorPreciosEspecialesValores">
+                    </div>
+
+                <div class="grupo-dinero" id="bloquePrecioPlastico" style="display:none;">
+                    <div>
+                        <label>Precio por Plástico Faltante</label>
+                        <input type="number" id="precioPlasticoFaltante" value="100" min="0" oninput="calcularLogicaBotellones()">
+                    </div>
+                    <div>
+                        <label>Subtotal Faltante</label>
+                        <span class="subtotal-dinero" id="subtotalPlasticoFaltante">$0.00</span>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="total-seccion">
+                    Total Esperado Botellones: <span id="totalDineroBotellones">$0.00</span>
+                </div>
+            </div>
+
+            <div class="botonera">
+                <button class="btnSecundario" onclick="mostrarPantalla(2)">Regresar</button>
+                <button class="btnPrincipal" onclick="mostrarPantalla(4)">Continuar</button>
+            </div>
+
+        </section>
+
+
+        <section id="pantalla4" class="pantalla oculta">
+
+            <h1>Cuentas de Otros Productos</h1>
+            <p class="subtitulo">Paso 4 - Galones, Litros y Medio Litro</p>
+
+            <div class="panel">
+                <h3>1. Galones</h3>
+                <div class="fila-lectura">
+                    <span>Salieron: <strong id="arrastreSalidaGal">0</strong></span>
+                    <span>Regresaron: <strong id="arrastreRegresoGal">0</strong></span>
+                </div>
+                <div class="grid-inputs-tres">
+                    <div>
+                        <label>Crédito</label>
+                        <input type="number" id="creditoGalones" value="0" min="0" oninput="calcularLogicaOtros()">
+                    </div>
+                    <div>
+                        <label>Vendidos</label>
+                        <input type="number" id="vendidosGalones" value="0" readonly class="input-bloqueado">
+                    </div>
+                    <div>
+                        <label>Precio ($)</label>
+                        <input type="number" id="precioGalon" value="15" min="0" oninput="closestAttribute()">
+                    </div>
+                </div>
+                <div class="subtotal-derecha">Subtotal: <span id="subtotalGalones">$0.00</span></div>
+            </div>
+
+            <div class="panel">
+                <h3>2. Paquetes de Litro</h3>
+                <div class="fila-lectura">
+                    <span>Salieron: <strong id="arrastreSalidaLitro">0</strong></span>
+                    <span>Regresaron: <strong id="arrastreRegresoLitro">0</strong></span>
+                </div>
+                <div class="grid-inputs-tres">
+                    <div>
+                        <label>Crédito</label>
+                        <input type="number" id="creditoLitro" value="0" min="0" oninput="calcularLogicaOtros()">
+                    </div>
+                    <div>
+                        <label>Vendidos</label>
+                        <input type="number" id="vendidosLitro" value="0" readonly class="input-bloqueado">
+                    </div>
+                    <div>
+                        <label>Precio ($)</label>
+                        <input type="number" id="precioLitro" value="30" min="0" oninput="calcularLogicaOtros()">
+                    </div>
+                </div>
+                <div class="subtotal-derecha">Subtotal: <span id="subtotalLitro">$0.00</span></div>
+            </div>
+
+            <div class="panel">
+                <h3>3. Paquetes de Medio Litro</h3>
+                <div class="fila-lectura">
+                    <span>Salieron: <strong id="arrastreSalidaMedio">0</strong></span>
+                    <span>Regresaron: <strong id="arrastreRegresoMedio">0</strong></span>
+                </div>
+                <div class="grid-inputs-tres">
+                    <div>
+                        <label>Crédito</label>
+                        <input type="number" id="creditoMedio" value="0" min="0" oninput="calcularLogicaOtros()">
+                    </div>
+                    <div>
+                        <label>Vendidos</label>
+                        <input type="number" id="vendidosMedio" value="0" readonly class="input-bloqueado">
+                    </div>
+                    <div>
+                        <label>Precio ($)</label>
+                        <input type="number" id="precioMedio" value="35" min="0" oninput="calcularLogicaOtros()">
+                    </div>
+                </div>
+                <div class="subtotal-derecha">Subtotal: <span id="subtotalMedio">$0.00</span></div>
+            </div>
+
+            <div class="panel">
+                <h3>Abonos Extra de Clientes</h3>
+                <label>Dinero recibido por cobranza/abonos pasados</label>
+                <input type="number" id="abonosExtra" value="0" min="0" oninput="calcularGranTotalEsperado()">
+                
+                <hr>
+                <div class="total-seccion grande">
+                    Gran Total a Entregar: <span id="granTotalEsperado">$0.00</span>
+                </div>
+            </div>
+
+            <div class="botonera">
+                <button class="btnSecundario" onclick="mostrarPantalla(3)">Regresar</button>
+                <button class="btnPrincipal" onclick="mostrarPantalla(5)">Continuar</button>
+            </div>
+
+        </section>
+
+
+        <section id="pantalla5" class="pantalla oculta">
+
+            <h1>Conteo de Efectivo</h1>
+            <p class="subtitulo">Paso 5 - Ingreso de Billetes y Monedas Recibidas</p>
+
+            <div class="panel">
+                <h3>Desglose de Denominaciones</h3>
+                
+                <div class="tabla-dinero">
+                    <div class="fila-dinero"><span>$1000</span><input type="number" id="e1000" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c1000" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$500</span><input type="number" id="e500" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c500" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$200</span><input type="number" id="e200" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c200" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$100</span><input type="number" id="e100" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c100" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$50</span><input type="number" id="e50" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c50" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$20</span><input type="number" id="e20" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c20" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$10</span><input type="number" id="e10" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c10" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$5</span><input type="number" id="e5" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c5" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$2</span><input type="number" id="e2" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c2" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$1</span><input type="number" id="e1" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c1" class="calc-b">$0</span></div>
+                    <div class="fila-dinero"><span>$0.50</span><input type="number" id="e05" value="0" min="0" oninput="calcularEfectivoCaja()"><span id="c05" class="calc-b">$0</span></div>
+                </div>
+
+                <hr>
+                <h3>Divisa Extranjera</h3>
+                <div class="grid-inputs-dos">
+                    <div>
+                        <label>Dólares (Cantidad)</label>
+                        <input type="number" id="eDolar" value="0" min="0" oninput="calcularEfectivoCaja()">
+                    </div>
+                    <div id="bloqueTipoCambio" style="display:none;">
+                        <label>Tipo de Cambio (MXN)</label>
+                        <input type="number" id="tipoCambio" value="17.00" min="0" oninput="calcularEfectivoCaja()">
+                    </div>
+                </div>
+                <div class="subtotal-derecha" id="subtotalDolar" style="display:none;">Subtotal Dólares: <span>$0.00</span></div>
+
+                <hr>
+                <div class="total-seccion verde">
+                    Total Efectivo Recibido: <span id="totalEfectivoRecibido">$0.00</span>
+                </div>
+            </div>
+
+            <div class="botonera">
+                <button class="btnSecundario" onclick="mostrarPantalla(4)">Regresar</button>
+                <button class="btnPrincipal" onclick="mostrarPantalla(6)">Continuar</button>
+            </div>
+
+        </section>
+
+
+        <section id="pantalla6" class="pantalla oculta">
+
+            <h1>Liquidación General</h1>
+            <p class="subtitulo">Paso 6 - Validación Final y Cierre de Caja</p>
+
+            <div class="panel">
+                <h3>Balance de Dinero</h3>
+                <div class="resumen-final-lineas">
+                    <p>Dinero que debía entregar: <span id="resumenEsperado" class="res-bold">$0.00</span></p>
+                    <p>Efectivo físico entregado: <span id="resumenRecibido" class="res-bold">$0.00</span></p>
+                </div>
+                
+                <hr>
+                <h2 id="mensajeLiquidacion" class="mensaje-liquidacion-alerta">Sin calcular</h2>
+            </div>
+
+            <div class="panel" id="panelJustificacion">
+                <h3>Justificación del Chofer / Notas de Caja</h3>
+                <label id="labelJustificacion">Reporte de incidencias o gastos generados en ruta:</label>
+                <textarea id="textoJustificacion" rows="4" placeholder="Escribe aquí los motivos del faltante..."></textarea>
+            </div>
+
+            <div class="panel-acciones">
+                <button class="btnPdf" onclick="procesarExportarPDF()">
+                    📄 Exportar Reporte PDF
+                </button>
+                
+                <button class="btnReset" onclick="restablecerSistemaTodo()">
+                    🔄 Restablecer Valores e Iniciar Nueva Ruta
+                </button>
+            </div>
+
+            <div class="botonera">
+                <button class="btnSecundario" onclick="mostrarPantalla(5)">Regresar</button>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <div id="modal" class="modal">
+
+        <div class="modalContenido">
+
+            <h2 id="tituloZona"></h2>
+
+            <label>Llenos</label>
+            <input type="number" id="llenos" value="0" min="0">
+
+            <label>Cambios</label>
+            <input type="number" id="cambios" value="0" min="0">
+
+            <label>Plásticos (Vacíos devueltos)</label>
+            <input type="number" id="plasticos" value="0" min="0">
+
+            <div id="productosExtra">
+                <label>Galones</label>
+                <input type="number" id="galones" value="0" min="0">
+
+                <label>Paquetes de litro</label>
+                <input type="number" id="litro" value="0" min="0">
+
+                <label>Paquetes de medio litro</label>
+                <input type="number" id="medio" value="0" min="0">
+            </div>
+
+            <div class="botonera">
+                <button class="btnPrincipal" onclick="guardarZona()">Guardar</button>
+                <button class="btnSecundario" onclick="cerrarModal()">Cancelar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
